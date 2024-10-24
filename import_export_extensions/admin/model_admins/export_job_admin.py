@@ -67,9 +67,12 @@ class ExportJobAdmin(
         urls = super().get_urls()
         export_urls = [
             re_path(
-                route=r"^(?P<job_id>\d+)/progress/$",
+                route=r"^celery-export(?P<job_id>\d+)/progress/$",
                 view=self.admin_site.admin_view(self.export_job_progress_view),
-                name="export_job_progress",
+                name=(
+                    f"{self.model_info.app_model_name}"
+                    "_export_job_progress",
+                )
             ),
         ]
         return export_urls + urls

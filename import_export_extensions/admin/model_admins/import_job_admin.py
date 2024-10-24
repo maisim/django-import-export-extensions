@@ -61,9 +61,12 @@ class ImportJobAdmin(
         urls = super().get_urls()
         import_urls = [
             re_path(
-                r"^(?P<job_id>\d+)/progress/$",
+                r"^celery-import/(?P<job_id>\d+)/progress/$",
                 self.admin_site.admin_view(self.import_job_progress_view),
-                name="import_job_progress",
+                name= (
+                f"{self.model_info.app_model_name}"
+                "_import_job_progress",
+                )
             ),
         ]
         return import_urls + urls
